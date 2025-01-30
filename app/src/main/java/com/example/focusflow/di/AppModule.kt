@@ -9,6 +9,8 @@ import com.example.focusflow.domain.usecase.DeleteTaskUseCase
 import com.example.focusflow.domain.usecase.GetAllTasksUseCase
 import com.example.focusflow.domain.usecase.GetTasksByRepeatDayUseCase
 import com.example.focusflow.domain.usecase.UpdateTaskStatusUseCase
+import com.example.focusflow.presentation.feature.add.AddViewModel
+import com.example.focusflow.presentation.feature.task.TasksViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -30,10 +32,14 @@ val appModule = module {
     single<TaskRepository> { TaskRepositoryImpl(get()) }
 
     // useCase will be added here
-    single { GetAllTasksUseCase(get()) }
-    single { GetTasksByRepeatDayUseCase(get()) }
-    single { AddTaskUseCase(get()) }
-    single { DeleteTaskUseCase(get()) }
-    single { UpdateTaskStatusUseCase(get()) }
+    factory { GetAllTasksUseCase(get()) }
+    factory { GetTasksByRepeatDayUseCase(get()) }
+    factory { AddTaskUseCase(get()) }
+    factory { DeleteTaskUseCase(get()) }
+    factory { UpdateTaskStatusUseCase(get()) }
+
+    // ViewModel will be added here
+    single { AddViewModel(get()) }
+    single { TasksViewModel(get()) }
 
 }
