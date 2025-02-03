@@ -1,27 +1,58 @@
 package com.example.focusflow.presentation.feature.task
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.example.focusflow.domain.enums.WeekDay
+import com.example.focusflow.presentation.feature.task.component.TasksContentComponent
+import com.example.focusflow.presentation.feature.task.component.TasksTopAppBarComponent
+import com.example.focusflow.util.toWeekDay
+import dev.burnoo.cokoin.navigation.getNavViewModel
+
 
 @Composable
-fun TaskScreen() {
+fun TasksScreen(
+    viewModel: TasksViewModel = getNavViewModel<TasksViewModel>(),
+    onNavigateToAddTask: () -> Unit,
+) {
+    val selectedDay by viewModel.selectedDay.collectAsState()
+    val tasks by viewModel.tasks.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
+    val currentDay by viewModel.currentDay.collectAsState()
+    val isLocked = viewModel.isFutureDay(selectedDay , currentDay.toWeekDay() ?: WeekDay.MONDAY)
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "TaskScreen")
+    Scaffold(
+        topBar = {
+            TasksTopAppBarComponent(
+                onDeleteAllTasks = viewModel::onDeleteAllTasks
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onNavigateToAddTask,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ) {
+                Icon(Icons.Rounded.Add, contentDescription = "Add Task")
+            }
+        }
+    ) { paddingValues ->
+        TasksContentComponent(
+            paddingValues = paddingValues,
+            selectedDay = selectedDay,
+            isLocked = isLocked,
+            tasks = tasks,
+            uiState = uiState,
+            currentDay = currentDay,
+            onDaySelected = viewModel::onDaySelected,
+            onTaskChecked = viewModel::onTaskChecked,
+            onDeleteTask = viewModel::onDeleteTask
+        )
     }
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TaskScreenPreview() {
-    TaskScreen()
 }

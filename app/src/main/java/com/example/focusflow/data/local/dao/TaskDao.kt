@@ -6,16 +6,14 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.focusflow.data.local.entity.TaskEntity
-import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface TaskDao {
-    @Query("SELECT * FROM tasks ORDER BY is_done ASC")
-    fun getAllTasks(): Flow<List<TaskEntity>>
 
-    @Query("SELECT * FROM tasks WHERE repeat_days LIKE '%' || :day || '%' ORDER BY time_created DESC")
-    fun getTasksByRepeatDay(day: String): Flow<List<TaskEntity>>
+
+    @Query("SELECT * FROM tasks WHERE repeat_days LIKE '%' || :day || '%' OR repeat_days IS NULL ORDER BY is_done ASC, id ASC")
+    suspend fun getTasksForDay(day: String): List<TaskEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: TaskEntity)
@@ -23,7 +21,13 @@ interface TaskDao {
     @Delete
     suspend fun deleteTask(task: TaskEntity)
 
-    @Query("UPDATE tasks SET is_done = :isDone WHERE id = :taskId")
-    suspend fun updateTaskStatus(taskId: Int, isDone: Boolean)
+    @Query("DELETE FROM tasks")
+    suspend fun deleteAllTasks()
+
+    @Query(
+        "UPDATE tasks SET is_done = :isDone WHERE id = :taskId AND repeat_days LIKE '%' || :day " +
+                "|| '%'"
+    )
+    suspend fun updateTaskStatus(taskId: Int, isDone: Boolean, day: String)
 
 }

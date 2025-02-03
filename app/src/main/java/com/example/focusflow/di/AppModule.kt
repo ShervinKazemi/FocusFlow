@@ -5,9 +5,9 @@ import com.example.focusflow.data.local.database.AppDatabase
 import com.example.focusflow.data.repository.TaskRepositoryImpl
 import com.example.focusflow.domain.repository.TaskRepository
 import com.example.focusflow.domain.usecase.AddTaskUseCase
+import com.example.focusflow.domain.usecase.DeleteAllTasksUseCase
 import com.example.focusflow.domain.usecase.DeleteTaskUseCase
-import com.example.focusflow.domain.usecase.GetAllTasksUseCase
-import com.example.focusflow.domain.usecase.GetTasksByRepeatDayUseCase
+import com.example.focusflow.domain.usecase.GetTasksForDayUseCase
 import com.example.focusflow.domain.usecase.UpdateTaskStatusUseCase
 import com.example.focusflow.presentation.feature.add.AddViewModel
 import com.example.focusflow.presentation.feature.task.TasksViewModel
@@ -32,14 +32,14 @@ val appModule = module {
     single<TaskRepository> { TaskRepositoryImpl(get()) }
 
     // useCase will be added here
-    factory { GetAllTasksUseCase(get()) }
-    factory { GetTasksByRepeatDayUseCase(get()) }
+    factory { GetTasksForDayUseCase(get()) }
     factory { AddTaskUseCase(get()) }
     factory { DeleteTaskUseCase(get()) }
+    factory { DeleteAllTasksUseCase(get()) }
     factory { UpdateTaskStatusUseCase(get()) }
 
     // ViewModel will be added here
     single { AddViewModel(get()) }
-    single { TasksViewModel(get()) }
+    single { TasksViewModel(get(),get(),get(),get()) }
 
 }
