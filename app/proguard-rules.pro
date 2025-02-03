@@ -19,3 +19,24 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keepattributes *Annotation*
+-keep class * { @com.google.gson.annotations.SerializedName *; }
+
+-keep class androidx.room.** { *; }
+-keep class com.google.gson.** { *; }
+-keep class retrofit2.** { *; }
+-keep class okhttp3.** { *; }
+
+-keep class com.example.focusflow.domain** { *; }
+
+-dontwarn javax.annotation.Nullable
+
+-keep class com.example.focusflow.MainActivity{ *; }
+-keep class com.example.focusflow.FocusFlowApp{ *; }
+-keep class com.example.focusflow.Manifest{ *; }
+-keep class com.example.focusflow.R{ *; }
+
+-keep class javax.annotation.processing.Generated { *; }
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
+

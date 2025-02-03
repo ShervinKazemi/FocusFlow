@@ -65,6 +65,8 @@ fun AddTaskScreen(
                         timeCreated = TaskConverters.getCurrentTimeString()
                     )
                 )
+                viewModel.title.value = ""
+                selectedDays = emptySet()
                 onNavigateBack()
             }
         }

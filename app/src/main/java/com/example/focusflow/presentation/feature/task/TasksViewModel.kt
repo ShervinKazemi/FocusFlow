@@ -106,7 +106,8 @@ class TasksViewModel(
         val selectedIndex = days.indexOf(selectedDay)
         val currentIndex = days.indexOf(currentDay)
 
-        return selectedIndex > currentIndex
+        _taskUpdateTrigger.value += 1
+        return currentIndex != selectedIndex
 
     }
 

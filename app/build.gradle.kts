@@ -21,6 +21,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -96,6 +97,8 @@ dependencies {
 
     // Gson =>
     implementation("com.google.code.gson:gson:2.10.1")
+
+    implementation(libs.javax.annotation.api)
 
     // Testing
     testImplementation(libs.junit)
