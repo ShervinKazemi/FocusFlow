@@ -10,23 +10,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.focusflow.domain.enums.WeekDay
+import com.example.focusflow.util.toWeekDay
 
 @Composable
-fun DaySelector(
+fun DaySelectorComponent(
     selectedDay: WeekDay,
-    onDaySelected: (WeekDay) -> Unit
+    currentDay: String,
+    onDaySelected: (WeekDay) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
+
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .horizontalScroll(rememberScrollState())
             .padding(horizontal = 8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         WeekDay.entries.forEach { day ->
-            DayChip(
+            DayChipComponent(
                 day = day,
                 isSelected = selectedDay == day,
+                isCurrentDay = day == currentDay.uppercase().toWeekDay(),
                 onSelected = { onDaySelected(day) }
             )
         }

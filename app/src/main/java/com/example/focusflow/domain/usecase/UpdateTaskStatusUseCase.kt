@@ -6,7 +6,7 @@ class UpdateTaskStatusUseCase(
     private val taskRepository: TaskRepository,
 ) {
 
-    suspend operator fun invoke(taskId: Int, isDone: Boolean) =
-        taskRepository.updateTaskStatus(taskId, isDone)
+    suspend operator fun invoke(taskId: Int, isDone: Boolean, day: String) =
+        taskRepository.updateTaskStatus(taskId, isDone, day)
 
 }

@@ -33,6 +33,10 @@ class TaskConverters {
             return SimpleDateFormat("hh:mm", Locale.getDefault())
                 .format(Date(System.currentTimeMillis()))
         }
+        fun getCurrentDay() :String {
+            return SimpleDateFormat("EEEE" , Locale.getDefault())
+                .format(Date())
+        }
 
     }
 

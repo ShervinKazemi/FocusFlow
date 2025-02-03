@@ -1,11 +1,8 @@
 package com.example.focusflow.domain.enums
 
-enum class WeekDay(val shortName: String, val fullName: String) {
-    MONDAY("Mon", "Monday"),
-    TUESDAY("Tue", "Tuesday"),
-    WEDNESDAY("Wed", "Wednesday"),
-    THURSDAY("Thu", "Thursday"),
-    FRIDAY("Fri", "Friday"),
-    SATURDAY("Sat", "Saturday"),
-    SUNDAY("Sun", "Sunday");
+enum class WeekDay {
+    MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY;
+
+    val shortName: String
+        get() = name.take(3)
 }
